@@ -18,7 +18,7 @@ data class UserCreateRequest(
     val gender: String,
 
     @field:NotBlank
-    @field:Min(value = 9)
+    @field:Min(value = 8)
     val phone: String,
 
     @field:NotBlank
