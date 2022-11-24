@@ -17,6 +17,7 @@ import java.util.*
 @Service
 class UserServiceImp(val repository: UserRepository, val validation: ValidationUtils) : UserService {
 
+
     override fun create(request: UserCreateRequest): UserResponse {
 
         validation.validate(request)
@@ -41,20 +42,15 @@ class UserServiceImp(val repository: UserRepository, val validation: ValidationU
 
         validation.validate(request)
 
-        val user = repository.findByIdOrNull(request.id)
-
-        if(user == null){
-            throw NotFoundException()
-        }else{
-            return convertUserToUserResponse(user = user)
-        }
+        val user = findUserByIdOrThrowNotFound(request.id)
+        return convertUserToUserResponse(user = user)
 
     }
 
     override fun update(request: UserUpdateRequest): UserResponse {
         validation.validate(request)
 
-        val user = repository.findByIdOrNull(request.id) ?: throw NotFoundException()
+        val user = findUserByIdOrThrowNotFound(request.id)
 
         user.apply {
             name = request.name
@@ -70,6 +66,20 @@ class UserServiceImp(val repository: UserRepository, val validation: ValidationU
 
         return convertUserToUserResponse(user = user)
 
+    }
+
+    override fun delete(request: UserGetRequest) {
+        val user = findUserByIdOrThrowNotFound(request.id)
+        repository.delete(user)
+    }
+
+    private fun findUserByIdOrThrowNotFound(id: String) : User{
+        val user = repository.findByIdOrNull(id = id)
+        if(user == null){
+            throw NotFoundException()
+        }else{
+            return user
+        }
     }
 
     private fun convertUserToUserResponse(user: User): UserResponse{

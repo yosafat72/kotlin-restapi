@@ -8,6 +8,6 @@ import labs.yohesu.kotlinapi.model.response.UserResponse
 interface UserService {
     fun create(request: UserCreateRequest): UserResponse
     fun get(request: UserGetRequest): UserResponse
-
     fun update(request: UserUpdateRequest): UserResponse
+    fun delete(request: UserGetRequest)
 }

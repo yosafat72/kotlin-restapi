@@ -18,15 +18,23 @@ class UserController(val service: UserService) {
         val result = service.create(body)
         return GenericResponse(true, "Successfully added data !", result)
     }
+
     @PostMapping(value = ["/api/user/get"])
     fun getUser(@RequestBody body: UserGetRequest) : GenericResponse<UserResponse>{
         val result = service.get(body)
         return GenericResponse(true, "Successfully !", result)
     }
+
     @PostMapping(value = ["/api/user/update"])
     fun updateUser(@RequestBody body: UserUpdateRequest) : GenericResponse<UserResponse>{
         val result = service.update(body)
         return GenericResponse(true, "Successfully updated data!", result)
+    }
+
+    @PostMapping(value = ["/api/user/delete"])
+    fun deleteUser(@RequestBody body: UserGetRequest) : GenericResponse<String>{
+        service.delete(body)
+        return GenericResponse(true, "Successfully deleted data!", body.id)
     }
 
 }
