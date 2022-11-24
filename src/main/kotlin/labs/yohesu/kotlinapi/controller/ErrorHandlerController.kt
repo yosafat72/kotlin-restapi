@@ -18,3 +18,7 @@ class ErrorHandlerController {
     }
 
 }
+
+class NotFoundException: Exception(){
+
+}
