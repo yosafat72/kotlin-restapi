@@ -4,15 +4,18 @@ import labs.yohesu.kotlinapi.controller.NotFoundException
 import labs.yohesu.kotlinapi.entity.User
 import labs.yohesu.kotlinapi.model.request.UserCreateRequest
 import labs.yohesu.kotlinapi.model.request.UserGetRequest
+import labs.yohesu.kotlinapi.model.request.UserListRequest
 import labs.yohesu.kotlinapi.model.request.UserUpdateRequest
 import labs.yohesu.kotlinapi.model.response.UserResponse
 import labs.yohesu.kotlinapi.repository.UserRepository
 import labs.yohesu.kotlinapi.service.UserService
 import labs.yohesu.kotlinapi.utils.Utils
 import labs.yohesu.kotlinapi.validation.ValidationUtils
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
+import java.util.stream.Collectors
 
 @Service
 class UserServiceImp(val repository: UserRepository, val validation: ValidationUtils) : UserService {
@@ -71,6 +74,13 @@ class UserServiceImp(val repository: UserRepository, val validation: ValidationU
     override fun delete(request: UserGetRequest) {
         val user = findUserByIdOrThrowNotFound(request.id)
         repository.delete(user)
+    }
+
+    override fun list(request: UserListRequest): List<UserResponse> {
+        val page = repository.findAll(PageRequest.of(request.page, 10))
+        println("Total page : "+page.totalPages)
+        val result: List<User> = page.get().collect(Collectors.toList())
+        return result.map { convertUserToUserResponse(it) }
     }
 
     private fun findUserByIdOrThrowNotFound(id: String) : User{

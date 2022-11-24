@@ -106,8 +106,14 @@ Response :
 
 ## List User
 Request :
-- Method : GET
+- Method : POST
 - Endpoint : `/api/user/list`
+- Body : 
+```json
+{
+    "page" : "int"
+}
+```
 
 Response :
 ```json
