@@ -4,6 +4,7 @@ import labs.yohesu.kotlinapi.controller.NotFoundException
 import labs.yohesu.kotlinapi.entity.User
 import labs.yohesu.kotlinapi.model.request.UserCreateRequest
 import labs.yohesu.kotlinapi.model.request.UserGetRequest
+import labs.yohesu.kotlinapi.model.request.UserUpdateRequest
 import labs.yohesu.kotlinapi.model.response.UserResponse
 import labs.yohesu.kotlinapi.repository.UserRepository
 import labs.yohesu.kotlinapi.service.UserService
@@ -47,6 +48,27 @@ class UserServiceImp(val repository: UserRepository, val validation: ValidationU
         }else{
             return convertUserToUserResponse(user = user)
         }
+
+    }
+
+    override fun update(request: UserUpdateRequest): UserResponse {
+        validation.validate(request)
+
+        val user = repository.findByIdOrNull(request.id) ?: throw NotFoundException()
+
+        user.apply {
+            name = request.name
+            dob = request.dob
+            gender = request.gender
+            phone = request.phone
+            email = request.email
+            address = request.address
+            updatedAt = Date()
+        }
+
+        repository.save(user)
+
+        return convertUserToUserResponse(user = user)
 
     }
 

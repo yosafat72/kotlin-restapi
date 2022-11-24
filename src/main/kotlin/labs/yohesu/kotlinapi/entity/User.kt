@@ -13,26 +13,26 @@ data class User(
     val id: String,
 
     @Column(name = "name")
-    val name: String?,
+    var name: String?,
 
     @Column(name = "dob")
-    val dob: Date?,
+    var dob: Date?,
 
     @Column(name = "gender")
-    val gender: String?,
+    var gender: String?,
 
     @Column(name = "phone ")
-    val phone: String?,
+    var phone: String?,
 
     @Column(name = "email")
-    val email: String?,
+    var email: String?,
 
     @Column(name = "address")
-    val address: String?,
+    var address: String?,
 
     @Column(name = "created_at")
     val createdAt: Date?,
 
     @Column(name = "updated_at")
-    val updatedAt: Date?
+    var updatedAt: Date?
 )

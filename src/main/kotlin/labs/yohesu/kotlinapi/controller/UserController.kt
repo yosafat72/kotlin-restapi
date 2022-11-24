@@ -3,6 +3,7 @@ package labs.yohesu.kotlinapi.controller
 import labs.yohesu.kotlinapi.model.GenericResponse
 import labs.yohesu.kotlinapi.model.request.UserCreateRequest
 import labs.yohesu.kotlinapi.model.request.UserGetRequest
+import labs.yohesu.kotlinapi.model.request.UserUpdateRequest
 import labs.yohesu.kotlinapi.model.response.UserResponse
 import labs.yohesu.kotlinapi.service.UserService
 import org.springframework.web.bind.annotation.PostMapping
@@ -21,6 +22,11 @@ class UserController(val service: UserService) {
     fun getUser(@RequestBody body: UserGetRequest) : GenericResponse<UserResponse>{
         val result = service.get(body)
         return GenericResponse(true, "Successfully !", result)
+    }
+    @PostMapping(value = ["/api/user/update"])
+    fun updateUser(@RequestBody body: UserUpdateRequest) : GenericResponse<UserResponse>{
+        val result = service.update(body)
+        return GenericResponse(true, "Successfully updated data!", result)
     }
 
 }
