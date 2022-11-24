@@ -2,7 +2,18 @@ version: '3.5'
 
 services:
   kotlin-api:
-    container_name: 'kotlin-api'
+    build: .
+    container_name: kotlin-api
+    image: 'kotlin-api'
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_URL: jdbc:postgresql://kotlin-api-postgres:5432/db_retail
+
+  kotlin-api-postgres:
+    container_name: 'kotlin-api-postgres'
     image: postgres:12-alpine
     ports:
       - "5432:5432"
