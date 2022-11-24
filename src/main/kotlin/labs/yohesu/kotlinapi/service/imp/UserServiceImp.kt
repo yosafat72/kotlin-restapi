@@ -74,12 +74,7 @@ class UserServiceImp(val repository: UserRepository, val validation: ValidationU
     }
 
     private fun findUserByIdOrThrowNotFound(id: String) : User{
-        val user = repository.findByIdOrNull(id = id)
-        if(user == null){
-            throw NotFoundException()
-        }else{
-            return user
-        }
+        return repository.findByIdOrNull(id = id) ?: throw NotFoundException()
     }
 
     private fun convertUserToUserResponse(user: User): UserResponse{
