@@ -72,13 +72,14 @@ class UserServiceImp(val repository: UserRepository, val validation: ValidationU
     }
 
     override fun delete(request: UserGetRequest) {
+        validation.validate(request)
         val user = findUserByIdOrThrowNotFound(request.id)
         repository.delete(user)
     }
 
     override fun list(request: UserListRequest): List<UserResponse> {
+        validation.validate(request)
         val page = repository.findAll(PageRequest.of(request.page, 10))
-        println("Total page : "+page.totalPages)
         val result: List<User> = page.get().collect(Collectors.toList())
         return result.map { convertUserToUserResponse(it) }
     }
